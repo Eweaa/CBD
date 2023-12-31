@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment, useRef} from 'react'
 import axios from 'axios'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import DeleteModal from '../../components/Modals/DeleteModal'
 import UpdateModal from '../../components/Modals/UpdateModal'
 
@@ -16,9 +16,9 @@ const Actors: React.FC = () => {
 
   const [actors, setActors] = useState<Actor[]>([]);
   const [selectedActor, setSelectedActor] = useState<string>('');
-  const [openC, setOpenC] = useState(false)
-  const [openD, setOpenD] = useState(false)
-  const [openU, setOpenU] = useState(false)
+  const [openC, setOpenC] = useState<boolean>(false)
+  const [openD, setOpenD] = useState<boolean>(false)
+  const [openU, setOpenU] = useState<boolean>(false)
 
   const cancelButtonRef = useRef(null)
 
@@ -35,10 +35,10 @@ const Actors: React.FC = () => {
     setSelectedActor(id);
   }
 
-  const createActor = (data: any) => {
-    axios.post('http://localhost:5000/actors/add', { Name: actorName.current.value})
+  const createActor = () => {
+    axios.post('http://localhost:5000/actors/add', { Name: actorName?.current?.value})
     setOpenC(false);
-    console.log(actorName.current.value)
+    console.log(actorName?.current?.value)
   }
 
   const deleteActor = (id: string) => {
@@ -53,6 +53,7 @@ const Actors: React.FC = () => {
 
   return (
     <div>
+      <h1>Actors</h1>
       <div className='flex justify-between'>
         <input type="text" placeholder="Search" className="border-2 rounded p-1"/>
         <button className="rounded mx-1 p-1 bg-blue-500 text-white" onClick={() => setOpenC(true)}>Add Actor</button>
@@ -102,8 +103,8 @@ const Actors: React.FC = () => {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <PlusCircleIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />
                     </div>
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                       <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
@@ -143,7 +144,7 @@ const Actors: React.FC = () => {
       </Dialog>
     </Transition.Root>
 
-      <DeleteModal status={openD} entity={selectedActor} closeFunc={setOpenD} delFunc={deleteActor}/>
+      <DeleteModal status={openD} entity={selectedActor} closeFunc={setOpenD} delFunc={deleteActor} type='Actor' />
       <UpdateModal status={openU} func={setOpenU}/>
     </div>
   )

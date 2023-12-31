@@ -6,10 +6,11 @@ type props = {
     status: boolean,
     entity: any,
     delFunc: any,
-    closeFunc: any
+    closeFunc: any,
+    type: string
 }
 
-const DeleteModal: React.FC<props> = ({ status, entity, delFunc, closeFunc }) => {
+const DeleteModal: React.FC<props> = ({ status, entity, delFunc, closeFunc, type }) => {
 
     const [open, setOpen] = useState<boolean>(status || false);
     const cancelButtonRef = useRef(null)
@@ -48,11 +49,11 @@ const DeleteModal: React.FC<props> = ({ status, entity, delFunc, closeFunc }) =>
                     </div>
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                       <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                        Delete Actor
+                        Delete {type}
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Are you sure you want to delete this actor?
+                          Are you sure you want to delete this {type}?
                         </p>
                       </div>
                     </div>
