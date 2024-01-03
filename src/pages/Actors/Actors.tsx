@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment, useRef} from 'react'
 import axios from 'axios'
 import { Dialog, Transition } from '@headlessui/react'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
+import { PlusCircleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import DeleteModal from '../../components/Modals/DeleteModal'
 import UpdateModal from '../../components/Modals/UpdateModal'
 
@@ -58,21 +58,69 @@ const Actors: React.FC = () => {
         <input type="text" placeholder="Search" className="border-2 rounded p-1"/>
         <button className="rounded mx-1 p-1 bg-blue-500 text-white" onClick={() => setOpenC(true)}>Add Actor</button>
       </div>
-      <ul role="list" className="divide-y divide-gray-100">
+      {/* <ul role="list" className="divide-y divide-gray-100">
         {actors.map(actor => (
-          <li key={actor._id} className='flex justify-between items-center gap-x-6 py-5'>
-            <div className="flex min-w-0 gap-x-4 items-center">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">{actor.Name}</p>
+          <div>
+
+            <table border={4} className='border'>
+              <thead>
+                <tr>Name</tr>
+                <tr>Actions</tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>{actor.Name}</td>
+                  <td>
+                    <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>Edit</button>
+                    <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+              
+            </table>
+
+            <li key={actor._id} className='flex justify-between items-center gap-x-6 py-5'>
+              <div className="flex min-w-0 gap-x-4 items-center">
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-semibold leading-6 text-gray-900">{actor.Name}</p>
+                </div>
               </div>
-            </div>
-            <div className="">
-              <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>Edit</button>
-              <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>Delete</button>
-            </div>
-          </li>
+              <div className="">
+                <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>Edit</button>
+                <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>Delete</button>
+              </div>
+            </li>
+          </div>
         ))}
-      </ul>
+      </ul> */}
+
+      <table border={4} className='border w-full mt-2'>
+
+        <thead>
+          <tr>
+            <td className='p-2'>Name</td>
+            <td className='p-2'>Actions</td>
+          </tr>
+        </thead>
+
+        <tbody>
+          {actors.map(actor => (
+          <tr className='border'>
+            <td className='p-2'>{actor.Name}</td>
+            <td className='p-2'>
+              <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>
+                <PencilSquareIcon className='h-6 w-6'/>
+              </button>
+              <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>
+                <TrashIcon className='h-6 w-6'/>
+              </button>
+            </td>
+          </tr>
+          ))}
+        </tbody>
+              
+      </table>
 
 
       <Transition.Root show={openC} as={Fragment}>
@@ -111,9 +159,6 @@ const Actors: React.FC = () => {
                         Create Actor
                       </Dialog.Title>
                       <div className="mt-2">
-                        {/* <p className="text-sm text-gray-500">
-                          Are you sure you want to delete this actor?
-                        </p> */}
                         <label>Name</label>
                         <input type='text' className='border' ref={actorName}/>
                       </div>
@@ -123,7 +168,7 @@ const Actors: React.FC = () => {
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:ring-4 transition sm:ml-3 sm:w-auto"
                     onClick={() => createActor()}
                   >
                     Create

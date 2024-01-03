@@ -33,9 +33,11 @@ connection.once('open', () => {
 
 const actorRouter = require('./api/Actors.route')
 const movieRouter = require('./api/Movies.route')
+const userRouter = require('./api/User.route')
 
 app.use('/actors', actorRouter)
 app.use('/movies', movieRouter)
+app.use('/user', userRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

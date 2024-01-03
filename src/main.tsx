@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Actors from './pages/Actors/Actors.tsx'
 import Dashboard from './pages/Dashboard/Dashboard.tsx'
 import Movies from './pages/Movies/Movies.tsx'
+import Login from './pages/Login/Login.tsx'
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         element: <Movies />
       },
     ]
+  },
+  {
+    path: '/login',
+    element: <Login />
   }
 ])
 

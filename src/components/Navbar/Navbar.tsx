@@ -9,6 +9,7 @@ const navigation = [
   { name: 'Movies', href: '/movies', current: false },
 ]
 
+
 function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
 }
@@ -83,8 +84,9 @@ export default function Example() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/login"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+
                           >
                             Sign out
                           </a>
