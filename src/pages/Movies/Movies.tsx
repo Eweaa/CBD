@@ -34,13 +34,30 @@ const Movies: React.FC = () => {
   }
 
   const deleteMovie = (id: string) => {
-    axios.delete('http://localhost:5000/movies/' + id);
-    setOpenD(false);
+    if(id == null)
+    {
+      const data = movies.filter(datum => datum._id !== id || datum._id === null) 
+      setMovies(data);
+      setOpenD(false);
+      return
+    }
+    axios.delete('http://localhost:5000/movies/' + id)
+    .then(() => {
+      const data = movies.filter(datum => datum._id !== id || datum._id === null) 
+      setMovies(data);
+      setOpenD(false);
+    })
+    .catch(err => alert(`Something Went Wrong ${err}`))
   }
 
   const createMovie = () => {    
     axios.post('http://localhost:5000/movies/add', { Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value})
-    .then(() => console.log('movie added'))
+    .then(() => {
+      console.log('movie added');
+      const data = [...movies, {Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value}];
+      setMovies(data);
+      setOpenC(false);
+    })
     .catch(err => console.log(err))
   }
 

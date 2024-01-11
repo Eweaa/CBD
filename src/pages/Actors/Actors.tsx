@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, useRef} from 'react'
+import React, { useEffect, useState, Fragment, useRef, useMemo} from 'react'
 import axios from 'axios'
 import { Dialog, Transition } from '@headlessui/react'
 import { PlusCircleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
@@ -19,6 +19,7 @@ const Actors: React.FC = () => {
   const [openC, setOpenC] = useState<boolean>(false)
   const [openD, setOpenD] = useState<boolean>(false)
   const [openU, setOpenU] = useState<boolean>(false)
+  const data = useMemo(() => ({actors}), [actors]);
 
   const cancelButtonRef = useRef(null)
 
@@ -27,23 +28,33 @@ const Actors: React.FC = () => {
       console.log(res.data);
       setActors(res.data);
     });
-  }, []);
+  }, [actors.length]);
+
+  
+  const createActor = () => {
+    axios.post('http://localhost:5000/actors/addz', { Name: actorName?.current?.value})
+    .then(() => {
+      setOpenC(false);
+      const newActor = actorName?.current?.value;
+      const data = [...actors, newActor];
+      setActors(data);
+    })
+    .catch((err) => alert(`Something Went Wrong ${err}`))
+  }
 
   const setDeletedActor = (id: string) => {
     setOpenD(true);
-    console.log(id);
     setSelectedActor(id);
   }
-
-  const createActor = () => {
-    axios.post('http://localhost:5000/actors/add', { Name: actorName?.current?.value})
-    setOpenC(false);
-    console.log(actorName?.current?.value)
-  }
-
+  
   const deleteActor = (id: string) => {
-    axios.delete('http://localhost:5000/actors/' + id);
-    setOpenD(false);
+    axios.delete('http://localhost:5000/actors/' + id)
+    .then(() => {
+      setOpenD(false);
+      const data = actors.filter(datum => datum._id !== id || datum._id === null)
+      setActors(data);
+    })
+    .catch((err) => alert(`Something Went Wrong ${err}`))
   }
 
   const updateActor = (id: string) => {

@@ -31,9 +31,9 @@ connection.once('open', () => {
     console.log(`MongoDB database connection esatblished successfully`);
 })
 
-const actorRouter = require('./api/Actors.route')
-const movieRouter = require('./api/Movies.route')
-const userRouter = require('./api/User.route')
+const actorRouter = require('./routes/Actors.route')
+const movieRouter = require('./routes/Movies.route')
+const userRouter = require('./routes/User.route')
 
 app.use('/actors', actorRouter)
 app.use('/movies', movieRouter)
