@@ -7,6 +7,8 @@ import Actors from './pages/Actors/Actors.tsx'
 import Dashboard from './pages/Dashboard/Dashboard.tsx'
 import Movies from './pages/Movies/Movies.tsx'
 import Login from './pages/Login/Login.tsx'
+import Register from './pages/Register/Register.tsx'
+import { AuthContextProvider } from './context/AuthContext.jsx'
 
 const router = createBrowserRouter([
   {
@@ -30,10 +32,16 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
-  }
+  },
+  {
+    path: '/register',
+    element: <Register />
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render
 (
-  <RouterProvider router={router} />
+  <AuthContextProvider>
+    <RouterProvider router={router} />
+  </AuthContextProvider>
 )

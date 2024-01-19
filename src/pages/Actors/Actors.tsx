@@ -12,6 +12,8 @@ const Actors: React.FC = () => {
     Name: string
   }
 
+  const token = localStorage.getItem('token');
+
   const actorName = useRef();
 
   const [actors, setActors] = useState<Actor[]>([]);
@@ -24,7 +26,7 @@ const Actors: React.FC = () => {
   const cancelButtonRef = useRef(null)
 
   useEffect(() => {
-    axios.get('http://localhost:5000/actors').then(res => {
+    axios.get('http://localhost:5000/actors', { headers: {"Authorization" : `Bearer ${token}`}}).then(res => {
       console.log(res.data);
       setActors(res.data);
     });
@@ -32,10 +34,10 @@ const Actors: React.FC = () => {
 
   
   const createActor = () => {
-    axios.post('http://localhost:5000/actors/addz', { Name: actorName?.current?.value})
+    axios.post('http://localhost:5000/actors/addz', { Name: actorName.current?.value})
     .then(() => {
       setOpenC(false);
-      const newActor = actorName?.current?.value;
+      const newActor = actorName.current?.value;
       const data = [...actors, newActor];
       setActors(data);
     })

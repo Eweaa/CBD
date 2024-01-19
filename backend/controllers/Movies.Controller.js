@@ -1,6 +1,14 @@
 let Movie = require('../Models/Movie.Model');
+let jwt = require('jsonwebtoken');
+
+
 
 const getMovies = async (req, res) => {
+
+    // const authHeader = req.headers['authorization'];
+    // const token = authHeader && authHeader.split(' ')[1];
+    // if (token == null) return res.sendStatus(401)
+    // jwt.verify(token, process.env.SECRET as string)
     Movie.find()
     .then(movies => res.json(movies))
     .catch(err => res.status(400).json(`Error: ${err}`))
