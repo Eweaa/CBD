@@ -14,7 +14,7 @@ const Actors: React.FC = () => {
 
   const token = localStorage.getItem('token');
 
-  const actorName = useRef();
+  const actorName = React.useRef<HTMLInputElement>(null);
 
   const [actors, setActors] = useState<Actor[]>([]);
   const [selectedActor, setSelectedActor] = useState<string>('');
@@ -71,42 +71,6 @@ const Actors: React.FC = () => {
         <input type="text" placeholder="Search" className="border-2 rounded p-1"/>
         <button className="rounded mx-1 p-1 bg-blue-500 text-white" onClick={() => setOpenC(true)}>Add Actor</button>
       </div>
-      {/* <ul role="list" className="divide-y divide-gray-100">
-        {actors.map(actor => (
-          <div>
-
-            <table border={4} className='border'>
-              <thead>
-                <tr>Name</tr>
-                <tr>Actions</tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>{actor.Name}</td>
-                  <td>
-                    <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>Edit</button>
-                    <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-              
-            </table>
-
-            <li key={actor._id} className='flex justify-between items-center gap-x-6 py-5'>
-              <div className="flex min-w-0 gap-x-4 items-center">
-                <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">{actor.Name}</p>
-                </div>
-              </div>
-              <div className="">
-                <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>Edit</button>
-                <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>Delete</button>
-              </div>
-            </li>
-          </div>
-        ))}
-      </ul> */}
 
       <table border={4} className='border w-full mt-2'>
 

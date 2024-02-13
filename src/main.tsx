@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
@@ -9,6 +8,7 @@ import Movies from './pages/Movies/Movies.tsx'
 import Login from './pages/Login/Login.tsx'
 import Register from './pages/Register/Register.tsx'
 import { AuthContextProvider } from './context/AuthContext.jsx'
+
 
 const router = createBrowserRouter([
   {

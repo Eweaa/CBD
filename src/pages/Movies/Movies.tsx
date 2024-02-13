@@ -12,6 +12,7 @@ const Movies: React.FC = () => {
     ReleaseDate: Date
   }
 
+  const searchWord = useRef<HTMLInputElement>(null);
   const movieName = useRef<HTMLInputElement>();
   const movieDate = useRef<HTMLInputElement>();
   const cancelButtonRef = useRef(null);
@@ -51,7 +52,7 @@ const Movies: React.FC = () => {
   }
 
   const createMovie = () => {    
-    axios.post('http://localhost:5000/movies/add', { Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value})
+    axios.post('http://localhost:5000/movies/', { Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value})
     .then(() => {
       console.log('movie added');
       const data = [...movies, {Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value}];
@@ -61,33 +62,22 @@ const Movies: React.FC = () => {
     .catch(err => console.log(err))
   }
 
+  const search = () => {
+    const moviez: Array<Movie> = [...movies];
+    const searchResult = moviez.filter(m => m.Name.includes(searchWord.current!.value))   
+    console.log(searchResult)
+    setMovies(searchResult);
+  }
+
   return (
     <div>
         <h1>Movies</h1>
         <div className='flex justify-between'>
-          <input type="text" placeholder="Search" className="border-2 rounded p-1"/>
+          <input type="text" placeholder="Search" className="border-2 rounded p-1" ref={searchWord} onChange={search} />
           <button className='bg-blue-500 rounded text-white mx-1 p-1' onClick={() => setOpenC(true)}>
             Create Movie
           </button>
         </div>
-        {/* <ul role="list" className="divide-y divide-gray-100">
-          {movies.map(movie => 
-            <li key={movie._id} className='flex justify-between items-center gap-x-6 py-5'>
-            <div className="flex min-w-0 gap-x-4 items-center">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">{movie.Name}</p>
-              </div>
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">{movie.ReleaseDate}</p>
-              </div>
-            </div>
-            <div className="">
-              <button className="rounded mx-1 p-1 bg-yellow-500 text-white">Edit</button>
-              <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedMovie(movie._id)}>Delete</button>
-            </div>
-          </li>
-          )}
-        </ul> */}
 
       <table className='border w-full mt-2'>
         

@@ -1,88 +1,23 @@
-import axios from 'axios';
-import React, { useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { useRegister } from '../../hooks/useRegister'
 
 const Register: React.FC = () => {
 
-    const navigate = useNavigate();
+    const { Register, error, errorMsg } = useRegister();
 
-    const emailRef = useRef();
-    const passRef = useRef();
+    const emailRef = React.useRef<HTMLInputElement>(null);
+    const passRef = React.useRef<HTMLInputElement>(null);
 
-    const [error, setError] = useState<boolean>(false);
-    const [errorMsg, setErrorMsg] = useState<string>('');
+    const register = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
 
-    const [emailError, setEmailError] = useState<boolean>(false);
-    const [emailErrorMsg, setEmailErrorMsg] = useState<string>('');
-    const [passError, setPassError] = useState<boolean>(false);
-    const [passErrorMsg, setPassErrorMsg] = useState<string>('');
-    
-
-    const register = (e) => {
-
-        e.preventDefault();
-
-        const email = emailRef.current?.value;
-        const pass = passRef.current?.value;
-        
-        if(email.length == 0 && pass.length == 0)
-        {
-            setError(true);
-            setErrorMsg(`You didn't enter an email nor a password`)
-            setEmailError(true);
-            setPassError(true);
-            setEmailErrorMsg(`you didn't enter an email`);
-            setPassErrorMsg(`you didn't enter a password`);
-        } 
-        else if(email.length == 0)
-        {
-            setError(true);
-            setErrorMsg(`you didn't enter an email`);
-        }
-        else if(pass.length == 0)
-        {
-            setError(true);
-            setErrorMsg(`you didn't enter a password`);
-        }
-        else
-        {
-            if(email.includes("@") != true)
-            {
-                // alert('forgot @')   
-                setError(true);
-                setErrorMsg('Your email must include @')
-            }
-            if(pass.length < 6)
-            {
-                setError(true);
-                setErrorMsg('The password is too short')
-            }
-            axios.post('http://localhost:5000/user/register', { Email: email, Password: pass })
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(err => console.log(err));
-            // navigate('/');
-        }
+      e.preventDefault();
+      Register(emailRef.current!.value, passRef.current!.value);
         
     }
 
   return (
     <div className='border rounded w-1/3 m-auto p-8'>
-        {/* <form>
-            <div className='mb-4'>
-                <div className='flex'>
-                    <input type='email' className={emailError ? 'border border-red-500 rounded' : 'border rounded'} />
-                </div>
-                <p className='text-red-500'>{emailError ? emailErrorMsg : <></>}</p>
-            </div>
-            <div className='mb-4'>
-                <div className='flex'>
-                    <input type='password' className={passError ? 'border border-red-500' : 'border'} minLength={4} />
-                </div>
-                <p className='text-red-500'>{passError ? passErrorMsg : <></>}</p>
-            </div>
-        </form> */}
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -95,7 +30,6 @@ const Register: React.FC = () => {
           </h2>
           <p className='text-center text-red-500' style={{display: error ? 'block' : 'hidden'}}>{errorMsg}</p>
         </div>
-
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" action="#" method="POST">
             <div>
