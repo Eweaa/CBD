@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from 'react-router-dom'
+import { useLogout } from '../../hooks/useLogout'
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
@@ -17,12 +18,7 @@ function classNames(...classes:any) {
 
 export default function Example() {
 
-  const navigate = useNavigate();
-  
-  const logout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
-  }
+  const { logout } = useLogout();
 
   return (
     <Disclosure as="nav" className="bg-gray-800">

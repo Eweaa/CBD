@@ -19,11 +19,13 @@ const Movies: React.FC = () => {
 
   let [movies, setMovies] = useState<Movie[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<string>('');
-  const [openD, setOpenD] = useState<boolean>(false)
-  const [openC, setOpenC] = useState<boolean>(false)
+  const [openD, setOpenD] = useState<boolean>(false);
+  const [openC, setOpenC] = useState<boolean>(false);
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/movies').then(res => {
+    axios.get('http://localhost:5000/movies', { headers: {"Authorization" : `Bearer ${token}`}}).then(res => {
       setMovies(res.data);
     });
   }, []);
@@ -42,7 +44,7 @@ const Movies: React.FC = () => {
       setOpenD(false);
       return
     }
-    axios.delete('http://localhost:5000/movies/' + id)
+    axios.delete('http://localhost:5000/movies/' + id, { headers: {"Authorization" : `Bearer ${token}`}})
     .then(() => {
       const data = movies.filter(datum => datum._id !== id || datum._id === null) 
       setMovies(data);
@@ -52,7 +54,7 @@ const Movies: React.FC = () => {
   }
 
   const createMovie = () => {    
-    axios.post('http://localhost:5000/movies/', { Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value})
+    axios.post('http://localhost:5000/movies/', { Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value}, { headers: {"Authorization" : `Bearer ${token}`}})
     .then(() => {
       console.log('movie added');
       const data = [...movies, {Name: movieName?.current?.value, ReleaseDate: movieDate?.current?.value}];

@@ -34,7 +34,7 @@ const Actors: React.FC = () => {
 
   
   const createActor = () => {
-    axios.post('http://localhost:5000/actors/addz', { Name: actorName.current?.value})
+    axios.post('http://localhost:5000/actors/', { Name: actorName.current?.value}, { headers: {"Authorization" : `Bearer ${token}`}})
     .then(() => {
       setOpenC(false);
       const newActor = actorName.current?.value;
@@ -50,7 +50,7 @@ const Actors: React.FC = () => {
   }
   
   const deleteActor = (id: string) => {
-    axios.delete('http://localhost:5000/actors/' + id)
+    axios.delete('http://localhost:5000/actors/' + id, { headers: {"Authorization" : `Bearer ${token}`}})
     .then(() => {
       setOpenD(false);
       const data = actors.filter(datum => datum._id !== id || datum._id === null)
@@ -60,7 +60,7 @@ const Actors: React.FC = () => {
   }
 
   const updateActor = (id: string) => {
-    axios.put('http://localhost:5000/actors/' + id);
+    axios.put('http://localhost:5000/actors/' + id, { headers: {"Authorization" : `Bearer ${token}`}});
     setOpenU(true);
   }
 
@@ -82,8 +82,8 @@ const Actors: React.FC = () => {
         </thead>
 
         <tbody>
-          {actors.map(actor => (
-          <tr className='border'>
+          {actors.map((actor, i) => (
+          <tr className='border' key={i}>
             <td className='p-2'>{actor.Name}</td>
             <td className='p-2'>
               <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>

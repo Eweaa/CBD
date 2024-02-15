@@ -1,16 +1,53 @@
-import { Outlet } from 'react-router';
 import './App.css'
-import Navbar from './components/Navbar/Navbar'
+import { useAuthContext } from './hooks/useAuthContext';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import Actors from './pages/Actors/Actors.tsx'
+import Dashboard from './pages/Dashboard/Dashboard.tsx'
+import Movies from './pages/Movies/Movies.tsx'
+import Login from './pages/Login/Login.tsx'
+import Register from './pages/Register/Register.tsx'
+import Layout from './pages/Layout/Layout.tsx';
 
 function App() {
+
+  const { user } = useAuthContext();
+  console.log('app', user);
+  
+  
+
+  const router = createBrowserRouter([
+    {
+      path:'/',
+      element:<Layout />,
+      children:[
+        {
+          path:'/',
+          element: (user ? <Dashboard /> : <Navigate to='/login'/>)
+        },
+        {
+          path:'/actors',
+          element: (user ? <Actors /> : <Navigate to='/login'/>)
+        },
+        {
+          path:'/movies',
+          element: (user ? <Movies /> : <Navigate to='/login'/>)
+        },
+      ]
+    },
+    {
+      path: '/login',
+      element: <Login />
+    },
+    {
+      path: '/register',
+      element: <Register />
+    },
+  ])
 
   return (
     
     <div>
-      <Navbar />
-      <div className='p-16'>
-        <Outlet />
-      </div>
+      <RouterProvider router={router}/>
     </div>
   )
 }
