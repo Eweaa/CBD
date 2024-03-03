@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { PlusCircleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import DeleteModal from '../../components/Modals/DeleteModal'
 import UpdateModal from '../../components/Modals/UpdateModal'
+import { Link } from 'react-router-dom'
 
 const Actors: React.FC = () => {
 
@@ -84,15 +85,17 @@ const Actors: React.FC = () => {
         <tbody>
           {actors.map((actor, i) => (
           <tr className='border' key={i}>
-            <td className='p-2'>{actor.Name}</td>
-            <td className='p-2'>
-              <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>
-                <PencilSquareIcon className='h-6 w-6'/>
-              </button>
-              <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>
-                <TrashIcon className='h-6 w-6'/>
-              </button>
-            </td>
+            {/* <Link to={`/actor/${actor._id}`}> */}
+              <td className='p-2'>{actor.Name}</td>
+              <td className='p-2'>
+                <button className="rounded mx-1 p-1 bg-yellow-500 text-white" onClick={() => setOpenU(true)}>
+                  <PencilSquareIcon className='h-6 w-6'/>
+                </button>
+                <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedActor(actor._id)}>
+                  <TrashIcon className='h-6 w-6'/>
+                </button>
+              </td>
+            {/* </Link> */}
           </tr>
           ))}
         </tbody>

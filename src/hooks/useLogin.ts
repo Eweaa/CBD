@@ -19,7 +19,7 @@ const Login = async (Email: string, Password: string) => {
     axios.post('http://localhost:5000/user/login', {Email, Password})
     .then(res => {
         // console.log(res.data);
-        localStorage.setItem('user', res.data);
+        localStorage.setItem('user', JSON.stringify(res.data));
         localStorage.setItem('token', res.data.token);
         dispatch({type: 'LOGIN', payload: res.data});
         navigate('/');

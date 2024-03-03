@@ -31,11 +31,14 @@ const loginUser = async (req, res) => {
       if(match)
       {
         let token = createToken('131');
-        res.status(200).json({Email ,token});
+        let Role = user.Role;
+        res.status(200).json({Email, Role, token});
       }
       else
       {
-        res.status(400).json(`Password is incorrect`)
+        setTimeout(() => {
+          res.status(400).json(`Password is incorrect`)
+        }, 3000)
       }
     }
 
@@ -46,7 +49,7 @@ const loginUser = async (req, res) => {
 }
 
 const registerUser = async (req, res) => {
-    const { Email, Password } = req.body;
+    const { Email, Role, Password } = req.body;
 
     let exists = await User.findOne({ Email });
 
@@ -59,7 +62,7 @@ const registerUser = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       const hashedPass = await bcrypt.hash(Password, salt);
       // res.status(200).json(`Email ${Email} have been created and the password is ${hashedPass}`);
-      User.create({ Email: Email, Password: hashedPass})
+      User.create({ Email: Email, Role: Role, Password: hashedPass})
       .then(() => res.status(200).json(`User ${Email} has been added`))
       .catch(err => res.status(400).json(err))
     }
