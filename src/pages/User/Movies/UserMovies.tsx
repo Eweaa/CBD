@@ -18,8 +18,21 @@ const UserMovies = () => {
 
   return (
     <div>
-      <h1>UserMovies</h1>
-      {movies.map(m => <Link to={`/movies/${m._id}`} className='block p-4'>{m?.Name}</Link>)}
+      {/* {movies.map(m => <Link to={`/movies/${m._id}`} className='block p-4'>{m?.Name}</Link>)} */}
+      <ul role="list" className="divide-y divide-gray-100">
+      {movies.map((movie) => (
+        <li key={movie._id} className="flex justify-between gap-x-6 py-5">
+          <Link to={`/movies/${movie._id}`}>
+            <div className="flex min-w-0 gap-x-4 px-4 items-center">
+              <img className="h-48 w-32 flex-none rounded-md bg-gray-50" src={movie.Img} alt="" />
+              <div className="min-w-0 flex-auto">
+                <p className="text-sm font-semibold leading-6 text-gray-900">{movie.Name}</p>
+              </div>
+            </div>
+          </Link>
+        </li>
+      ))}
+    </ul>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 let Movie = require('../Models/Movie.Model');
+let Actor = require('../Models/Actor.Model')
 let jwt = require('jsonwebtoken');
 
 
@@ -15,12 +16,20 @@ const getMovies = async (req, res) => {
 }
 
 const getMovie = async (req, res) => {
+
     Movie.findById(req.params.id)
     .then(movie => {
-        if (movie == null) res.json('This movie does not exist')
-        else res.json(movie)
+        if (movie == null) res.json('This movie does not exist');
+        else 
+        {
+           Promise.all(movie.Actors.map(element => Actor.findById(element)))
+           .then(actors => {
+            movie.Actors = actors;
+            res.json(movie);
+           });
+        }
     })
-    .catch(err => res.status(400).json(`Error: ${err}`))
+    .catch(err => res.status(400).json(`Error: ${err}`));
 }
 
 const createMovie = async (req, res) => {

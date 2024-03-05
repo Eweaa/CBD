@@ -53,19 +53,21 @@ function App() {
   const userRouter = createBrowserRouter([
     {
       path: '/',
-      element: <Home />
-    },
-    {
-      path: '/movies',
-      element: <UserMovies />
-    },
-    {
-      path: '/movies/:id',
-      element: <Movie />
-    },
-    {
-      path:'/actor/:id',
-      element: (Role == false ? <Actor /> : <Navigate to='/login'/>)
+      element: <Home />,
+      children: [
+        {
+          path: '/movies',
+          element: <UserMovies />
+        },
+        {
+          path: '/movies/:id',
+          element: <Movie />
+        },
+        {
+          path:'/actor/:id',
+          element: (Role == false ? <Actor /> : <Navigate to='/login'/>)
+        },
+      ]
     },
     {
       path: '/login',
