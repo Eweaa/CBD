@@ -9,7 +9,7 @@ const Movies: React.FC = () => {
   type Movie = {
     _id:string,
     Name: string,
-    ReleaseDate: Date
+    ReleaseDate: string
   }
 
   const searchWord = useRef<HTMLInputElement>(null);
@@ -18,6 +18,7 @@ const Movies: React.FC = () => {
   const cancelButtonRef = useRef(null);
 
   let [movies, setMovies] = useState<Movie[]>([]);
+  let [movieList, setMovieList] = useState<Movie[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<string>('');
   const [openD, setOpenD] = useState<boolean>(false);
   const [openC, setOpenC] = useState<boolean>(false);
@@ -25,8 +26,12 @@ const Movies: React.FC = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/movies', { headers: {"Authorization" : `Bearer ${token}`}}).then(res => {
+    axios.get('http://localhost:5000/movies', { headers: {"Authorization" : `Bearer ${token}`}})
+    .then(res => {
       setMovies(res.data);
+      setMovieList(res.data)
+      // movieList = [...res.data];
+      // console.log(movieList)
     });
   }, []);
 
@@ -65,10 +70,17 @@ const Movies: React.FC = () => {
   }
 
   const search = () => {
-    const moviez: Array<Movie> = [...movies];
-    const searchResult = moviez.filter(m => m.Name.includes(searchWord.current!.value))   
-    console.log(searchResult)
-    setMovies(searchResult);
+    if(searchWord.current!.value.length === 0 && movies.length === 0)
+    {
+      console.log('a1a1a')
+      console.log(movieList)
+      setMovies(movieList);
+    }
+    else 
+    {
+      let searchResult = movies.filter(m => m.Name.toLowerCase().includes(searchWord.current!.value.toLocaleLowerCase()));
+      setMovies(searchResult);
+    }
   }
 
   return (
@@ -93,9 +105,9 @@ const Movies: React.FC = () => {
 
         <tbody>
           {movies.map(movie => (
-          <tr className='border'>
+          <tr key={movie._id} className='border'>
             <td className='p-2'>{movie.Name}</td>
-            <td className='p-2'>{movie.ReleaseDate}</td>
+            <td className='p-2'>{new Date(movie.ReleaseDate).toDateString()}</td>
             <td className='p-2'>
               <button className="rounded mx-1 p-1 bg-yellow-500 text-white">Edit</button>
               <button className="rounded mx-1 p-1 bg-red-600 text-white" onClick={() => setDeletedMovie(movie._id)}>Delete</button>
@@ -153,6 +165,12 @@ const Movies: React.FC = () => {
                             <label>Date</label>
                             <input type='date' className='border rounded' ref={movieDate}/>
                           </div>
+                          {/* <div>
+                            <label>Actors</label>
+                            <div className='border border-gray-200'>
+                              <input type='search'/>
+                            </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>

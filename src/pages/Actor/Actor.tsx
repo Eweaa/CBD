@@ -34,7 +34,7 @@ const Actor: React.FC = () => {
 
   return (
     <div>
-        <div className="bg-white">
+        <div className="p-8">
             <div>
 
                 <div className="mx-auto max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
