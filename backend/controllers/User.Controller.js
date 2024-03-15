@@ -15,7 +15,9 @@ const loginUser = async (req, res) => {
 
   if(!user)
   {
-    res.status(400).json('This User Does not exist');
+    setTimeout(() => {
+      res.status(400).json('Email or Password is incorrect');
+    }, 3000)
   }
   else
   {
@@ -37,7 +39,7 @@ const loginUser = async (req, res) => {
       else
       {
         setTimeout(() => {
-          res.status(400).json(`Password is incorrect`)
+          res.status(400).json(`Email or Password is incorrect`)
         }, 3000)
       }
     }

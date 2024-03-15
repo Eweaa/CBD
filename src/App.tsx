@@ -15,10 +15,10 @@ import Movie from './pages/User/Movie/Movie.tsx';
 function App() {
 
   const { user } = useAuthContext();
-  console.log('app', user);
+  // console.log('app', user);
   let theUser = user;
   let Role = theUser?.Role;
-  console.log(Role);
+  // console.log(Role);
 
 
   const router = createBrowserRouter([

@@ -17,8 +17,9 @@ const getActor = async (req, res) => {
 
 const createActor = async (req, res) => {
     const Name = req.body.Name;
+    const AddedOn = Date.now();
 
-    const newActor = new Actor({ Name });
+    const newActor = new Actor({ Name, AddedOn });
     newActor.save()
     .then(() => res.json('Actor Added!'))
     .catch(err => res.status(400).json('Error: ' + err))
